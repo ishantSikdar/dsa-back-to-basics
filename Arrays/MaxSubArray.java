@@ -1,38 +1,30 @@
 public class MaxSubArray {
     public static void main(String[] args) {
-        int[] nums = { -2, -3, -4, -2, -2, -2, -5, -3 };
+        int[] nums = { -2,-1,-1 };
 
         // int sum = bruteForce(nums);
-        int sum = prefixSum(nums);
-        // int sum = kadanesAlgo(nums);
+        // int sum = prefixSum(nums);
+        int sum = kadanesAlgo(nums);
         System.out.println("Max SubArray Sum: " + sum);
     }
 
-    private static int kadanesAlgo(int[] arr) {
+    private static int kadanesAlgo(int[] nums) {
         int maxSum = Integer.MIN_VALUE;
-        int currSum = 0;
-
-        int greatestNegative = Integer.MIN_VALUE;
-        boolean isPositivePresent = false;
-
-        for (int i = 0; i < arr.length; i++) {
-            isPositivePresent = arr[i] > 0;
-
-            currSum = arr[i] + currSum;
-
-            if (currSum < 0) {
-                currSum = 0;
+        int currentSum = 0;
+        
+        for (int i = 0; i < nums.length; i++) {
+            currentSum += nums[i];
+            
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
             }
-
-            maxSum = Math.max(currSum, maxSum);
-            greatestNegative = Math.max(greatestNegative, arr[i]);
+            
+            if (currentSum < 0) {
+                currentSum = 0;
+            }
         }
-
-        if (!isPositivePresent) {
-            return greatestNegative;
-        } else {
-            return maxSum;
-        }
+        
+        return maxSum;
     }
 
     private static int bruteForce(int[] nums) {
